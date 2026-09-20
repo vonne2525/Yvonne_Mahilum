@@ -11,8 +11,8 @@ def home():
 @app.route('/student')
 def get_student():
     return jsonify({
-        "student_id": "24-0087",
-        "name": "Kc Jane Marie Ladoing",
+        "student_id": "24-00145",
+        "name": "Yvonne Mahilum",
         "program": "BSIT",
         "year": 3,
         "section": "B"

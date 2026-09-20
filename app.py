@@ -27,5 +27,19 @@ def say_hello():
     })
 
 
+@app.route('/skills')
+def get_skills():
+    return jsonify({
+        "skills": [
+            "Python",
+            "Flask",
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Database Management"
+        ]
+    })
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +12,7 @@
         :root {
             --blue: #2878e5;
             --dark-blue: #164a9b;
-            --sky: #dff3ff;
             --text: #244568;
-            --white: #ffffff;
         }
 
         * {
@@ -28,11 +27,10 @@
             font-family: 'Poppins', Arial, sans-serif;
             color: var(--text);
             background:
-                radial-gradient(ellipse at 15% 10%, #ffffff 0%, transparent 35%),
-                linear-gradient(145deg, #b5e5ff 0%, #e4f5ff 48%, #b7dcff 100%);
+                radial-gradient(ellipse at 15% 10%, #fff 0%, transparent 35%),
+                linear-gradient(145deg, #b5e5ff, #e4f5ff 48%, #b7dcff);
         }
 
-        /* Sky background */
         .sky {
             position: fixed;
             inset: 0;
@@ -49,23 +47,19 @@
             height: 100px;
             border-radius: 50%;
             background: linear-gradient(145deg, #fff9d8, #ffd76c);
-            box-shadow:
-                0 0 35px #fff3b0,
-                0 0 90px rgba(255, 216, 107, 0.55);
+            box-shadow: 0 0 35px #fff3b0, 0 0 90px #ffd86c8c;
             animation: sunGlow 4s ease-in-out infinite alternate;
         }
 
-        /* CSS-only 3D clouds */
         .cloud {
             position: absolute;
             width: 150px;
             height: 43px;
             border-radius: 50px;
-            background: linear-gradient(180deg, #ffffff 0%, #e8f5ff 75%, #c8e5fa 100%);
-            box-shadow:
-                inset -8px -8px 15px rgba(115, 177, 224, 0.22),
-                inset 7px 8px 12px rgba(255, 255, 255, 0.95),
-                0 14px 22px rgba(65, 127, 183, 0.14);
+            background: linear-gradient(180deg, #fff, #e8f5ff 75%, #c8e5fa);
+            box-shadow: inset -8px -8px 15px #73b1e038,
+                        inset 7px 8px 12px #fffffff2,
+                        0 14px 22px #417fb324;
             animation: floatCloud 9s ease-in-out infinite;
         }
 
@@ -74,8 +68,7 @@
             content: "";
             position: absolute;
             border-radius: 50%;
-            background: linear-gradient(145deg, #ffffff, #e1f2ff);
-            box-shadow: inset -5px -5px 10px rgba(115, 177, 224, 0.15);
+            background: linear-gradient(145deg, #fff, #e1f2ff);
         }
 
         .cloud::before {
@@ -92,46 +85,17 @@
             bottom: 5px;
         }
 
-        .cloud-one {
-            top: 16%;
-            left: -30px;
-            transform: scale(1.2);
-        }
+        .cloud-one { top: 16%; left: -30px; transform: scale(1.2); }
+        .cloud-two { top: 42%; right: -35px; transform: scale(1.5); animation-delay: -3s; }
+        .cloud-three { bottom: 8%; left: 7%; transform: scale(.9); animation-delay: -5s; }
+        .cloud-four { top: 7%; left: 43%; transform: scale(.65); animation-delay: -2s; }
+        .cloud-five { bottom: 20%; right: 12%; transform: scale(.8); animation-delay: -6s; }
 
-        .cloud-two {
-            top: 42%;
-            right: -35px;
-            transform: scale(1.5);
-            animation-delay: -3s;
-        }
-
-        .cloud-three {
-            bottom: 8%;
-            left: 7%;
-            transform: scale(0.9);
-            animation-delay: -5s;
-        }
-
-        .cloud-four {
-            top: 7%;
-            left: 43%;
-            transform: scale(0.65);
-            animation-delay: -2s;
-        }
-
-        .cloud-five {
-            bottom: 20%;
-            right: 12%;
-            transform: scale(0.8);
-            animation-delay: -6s;
-        }
-
-        /* Main layout */
         .container {
             position: relative;
             z-index: 1;
             width: min(100% - 36px, 1000px);
-            margin: 0 auto;
+            margin: auto;
             padding: 45px 0 35px;
         }
 
@@ -144,15 +108,14 @@
             width: 78px;
             height: 78px;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             margin: 0 auto 17px;
             border-radius: 25px;
             font-size: 38px;
-            background: linear-gradient(145deg, #ffffff, #b9e1ff);
-            box-shadow:
-                10px 10px 24px rgba(55, 119, 184, 0.2),
-                -8px -8px 20px rgba(255, 255, 255, 0.9);
+            background: linear-gradient(145deg, #fff, #b9e1ff);
+            box-shadow: 10px 10px 24px #3777b833,
+                        -8px -8px 20px #ffffffe6;
             transform: rotate(-5deg);
         }
 
@@ -160,14 +123,11 @@
             font-size: clamp(30px, 5vw, 43px);
             font-weight: 800;
             letter-spacing: -1.5px;
-            line-height: 1.3;
             color: #1554a7;
-            text-shadow: 0 3px 0 rgba(255, 255, 255, 0.7);
+            text-shadow: 0 3px 0 #ffffffb3;
         }
 
-        header h1 span {
-            color: #3d9de8;
-        }
+        header h1 span { color: #3d9de8; }
 
         header p {
             margin-top: 12px;
@@ -182,9 +142,8 @@
             margin-top: 18px;
             padding: 8px 15px;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.68);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 5px 15px rgba(61, 120, 177, 0.09);
+            background: #ffffffad;
+            border: 1px solid #ffffffe6;
             font-size: 12px;
             font-weight: 600;
             color: #3974a8;
@@ -195,10 +154,9 @@
             height: 8px;
             border-radius: 50%;
             background: #35c78a;
-            box-shadow: 0 0 10px rgba(53, 199, 138, 0.6);
+            box-shadow: 0 0 10px #35c78a99;
         }
 
-        /* Dashboard cards */
         .dashboard {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -212,32 +170,19 @@
             padding: 27px;
             overflow: hidden;
             border-radius: 25px;
-            background: rgba(255, 255, 255, 0.76);
-            border: 1px solid rgba(255, 255, 255, 0.95);
-            box-shadow:
-                0 15px 35px rgba(61, 115, 170, 0.12),
-                inset 0 2px 2px rgba(255, 255, 255, 0.9);
+            background: #ffffffc2;
+            border: 1px solid #fffffff2;
+            box-shadow: 0 15px 35px #3d73aa1f,
+                        inset 0 2px 2px #ffffffe6;
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            transition:
-                transform 0.35s ease,
-                box-shadow 0.35s ease;
-            animation: cardAppear 0.7s ease both;
+            transition: transform .35s, box-shadow .35s;
+            animation: cardAppear .7s ease both;
         }
 
         .card:hover {
-            transform: translateY(-7px) rotateX(2deg);
-            box-shadow:
-                0 24px 45px rgba(61, 115, 170, 0.19),
-                inset 0 2px 2px #ffffff;
-        }
-
-        .card:nth-child(2) {
-            animation-delay: 0.12s;
-        }
-
-        .card:nth-child(3) {
-            animation-delay: 0.24s;
+            transform: translateY(-5px);
+            box-shadow: 0 24px 45px #3d73aa30;
         }
 
         .card::before {
@@ -248,13 +193,11 @@
             width: 145px;
             height: 145px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(115, 194, 255, 0.2), transparent 70%);
+            background: radial-gradient(circle, #73c2ff33, transparent 70%);
             pointer-events: none;
         }
 
-        .student-card {
-            grid-column: 1 / -1;
-        }
+        .student-card { grid-column: 1 / -1; }
 
         .card-heading {
             display: flex;
@@ -273,9 +216,8 @@
             border-radius: 17px;
             font-size: 26px;
             background: linear-gradient(145deg, #eaf7ff, #c6e7ff);
-            box-shadow:
-                5px 5px 12px rgba(84, 147, 203, 0.15),
-                -4px -4px 10px rgba(255, 255, 255, 0.9);
+            box-shadow: 5px 5px 12px #5493cb26,
+                        -4px -4px 10px #ffffffe6;
         }
 
         .card h2 {
@@ -295,7 +237,6 @@
             z-index: 1;
         }
 
-        /* Buttons */
         .btn {
             display: inline-flex;
             justify-content: center;
@@ -308,36 +249,27 @@
             border-radius: 13px;
             color: white;
             background: linear-gradient(135deg, #479cf0, #2161ca);
-            box-shadow:
-                0 6px 0 #194b9b,
-                0 10px 18px rgba(37, 103, 204, 0.2);
+            box-shadow: 0 6px 0 #194b9b,
+                        0 10px 18px #2567cc33;
             font-family: inherit;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transition: transform .15s, box-shadow .15s;
         }
 
         .btn:hover {
             background: linear-gradient(135deg, #3389e4, #164cae);
             transform: translateY(-2px);
-            box-shadow:
-                0 8px 0 #194b9b,
-                0 13px 20px rgba(37, 103, 204, 0.24);
         }
 
-        .btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #194b9b;
-        }
+        .btn:active { transform: translateY(2px); }
 
         .btn:disabled {
-            opacity: 0.65;
+            opacity: .65;
             cursor: wait;
-            transform: none;
         }
 
-        /* Input */
         .input-group {
             display: flex;
             align-items: center;
@@ -346,17 +278,14 @@
             background: #f7fbff;
             border: 1px solid #d7e9f8;
             border-radius: 13px;
-            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .input-group:focus-within {
             border-color: #4d9ce9;
-            box-shadow: 0 0 0 4px rgba(77, 156, 233, 0.12);
+            box-shadow: 0 0 0 4px #4d9ce91f;
         }
 
-        .input-group span {
-            font-size: 17px;
-        }
+        .input-group span { font-size: 17px; }
 
         input {
             width: 100%;
@@ -370,11 +299,6 @@
             font-size: 13px;
         }
 
-        input::placeholder {
-            color: #9bb2c7;
-        }
-
-        /* API results */
         .result {
             margin-top: 20px;
             overflow-wrap: anywhere;
@@ -385,7 +309,7 @@
             text-align: center;
             border: 1px dashed #c6dfef;
             border-radius: 15px;
-            background: rgba(237, 248, 255, 0.65);
+            background: #edf8ffa6;
             color: #89a5bd;
             font-size: 12px;
         }
@@ -411,7 +335,7 @@
             font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
+            letter-spacing: .6px;
         }
 
         .info-item .value {
@@ -447,7 +371,28 @@
             color: #2865a2;
             font-size: 12px;
             font-weight: 600;
-            box-shadow: 0 3px 8px rgba(58, 120, 176, 0.08);
+        }
+
+        .database-student-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .database-student-item {
+            padding: 15px;
+            border-radius: 14px;
+            background: linear-gradient(145deg, #f5fbff, #e7f4ff);
+            border: 1px solid #d8ebfa;
+            color: #315d83;
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .database-student-item strong {
+            color: #174e91;
+            font-size: 13px;
         }
 
         .message {
@@ -472,9 +417,7 @@
             font-size: 11px;
         }
 
-        footer span {
-            color: #3688d9;
-        }
+        footer span { color: #3688d9; }
 
         @keyframes floatCloud {
             0%, 100% { margin-top: 0; }
@@ -487,14 +430,8 @@
         }
 
         @keyframes cardAppear {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 650px) {
@@ -508,9 +445,7 @@
                 gap: 17px;
             }
 
-            .student-card {
-                grid-column: auto;
-            }
+            .student-card { grid-column: auto; }
 
             .card {
                 padding: 22px;
@@ -528,15 +463,11 @@
                 height: 70px;
             }
 
-            header p {
-                font-size: 12px;
-            }
+            header p { font-size: 12px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 animation: none !important;
                 transition: none !important;
             }
@@ -545,8 +476,7 @@
 </head>
 
 <body>
-
-    <!-- Animated sky and 3D clouds -->
+    <!-- Animated sky -->
     <div class="sky" aria-hidden="true">
         <div class="sun"></div>
         <div class="cloud cloud-one"></div>
@@ -557,13 +487,9 @@
     </div>
 
     <main class="container">
-
-        <!-- Header -->
         <header>
             <div class="logo">☁️</div>
-
             <h1>Student <span>Cloud</span></h1>
-
             <p>Your personal student dashboard, floating in the cloud.</p>
 
             <div class="status">
@@ -585,14 +511,9 @@
                 </div>
 
                 <div class="card-content">
-                    <button
-                        type="button"
-                        class="btn"
-                        id="studentBtn"
-                        onclick="loadStudent()"
-                    >
-                        <span>☁</span>
-                        Load Student Information
+                    <button type="button" class="btn" id="studentBtn"
+                            onclick="loadStudent()">
+                        ☁ Load Student Information
                     </button>
 
                     <div id="result" class="result" aria-live="polite">
@@ -617,18 +538,15 @@
                     <form id="greetingForm">
                         <div class="input-group">
                             <span aria-hidden="true">😊</span>
-                            <input
-                                type="text"
-                                id="nameInput"
-                                placeholder="Enter your first name"
-                                autocomplete="given-name"
-                                maxlength="100"
-                                aria-label="Your first name"
-                            >
+                            <input type="text" id="nameInput"
+                                   placeholder="Enter your first name"
+                                   autocomplete="given-name"
+                                   maxlength="100"
+                                   aria-label="Your first name">
                         </div>
 
                         <button type="submit" class="btn" id="greetingBtn">
-                            Say Hello <span>✦</span>
+                            Say Hello ✦
                         </button>
                     </form>
 
@@ -651,19 +569,38 @@
                 </div>
 
                 <div class="card-content">
-                    <button
-                        type="button"
-                        class="btn"
-                        id="skillsBtn"
-                        onclick="loadSkills()"
-                    >
-                        <span>✧</span>
-                        Load My Skills
+                    <button type="button" class="btn" id="skillsBtn"
+                            onclick="loadSkills()">
+                        ✧ Load My Skills
                     </button>
 
                     <div id="skills" class="result" aria-live="polite">
                         <div class="empty-state">
                             🌟 Your skills will appear here.
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Students from Database -->
+            <article class="card student-card">
+                <div class="card-heading">
+                    <div class="icon-box">📚</div>
+                    <div>
+                        <h2>Students from Database</h2>
+                        <p>Student records stored in SQLite</p>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <button type="button" class="btn" id="studentsBtn"
+                            onclick="loadStudents()">
+                        ☁ Load Students
+                    </button>
+
+                    <div id="studentList" class="result" aria-live="polite">
+                        <div class="empty-state">
+                            Click the button to load student records.
                         </div>
                     </div>
                 </div>
@@ -676,29 +613,24 @@
             <br>
             Student Cloud API Dashboard
         </footer>
-
     </main>
 
     <script>
-        // Safely display messages without interpreting HTML.
+        // Display messages safely.
         function showMessage(element, message, isError = false) {
             element.replaceChildren();
 
             const div = document.createElement("div");
-            div.className = isError
-                ? "message error"
-                : "message";
-
+            div.className = isError ? "message error" : "message";
             div.textContent = message;
+
             element.appendChild(div);
         }
 
-        // Safely fetch JSON from the backend.
+        // Fetch JSON from Flask and handle HTTP errors.
         async function fetchJSON(url) {
             const response = await fetch(url, {
-                headers: {
-                    "Accept": "application/json"
-                }
+                headers: { "Accept": "application/json" }
             });
 
             if (!response.ok) {
@@ -708,30 +640,22 @@
             return response.json();
         }
 
-        // Set a button's loading state.
+        // Set button loading state.
         function setLoading(button, loading, originalText) {
             button.disabled = loading;
-            button.textContent = loading
-                ? "Loading..."
-                : originalText;
+            button.textContent = loading ? "Loading..." : originalText;
         }
 
-        // 1. Student Information API
+        // 1. Load a single student.
         async function loadStudent() {
             const result = document.getElementById("result");
             const button = document.getElementById("studentBtn");
 
-            setLoading(
-                button,
-                true,
-                "☁ Load Student Information"
-            );
-
-            showMessage(result, "☁ Fetching your student information...");
+            setLoading(button, true, "☁ Load Student Information");
+            showMessage(result, "Fetching student information...");
 
             try {
                 const data = await fetchJSON("/student");
-
                 result.replaceChildren();
 
                 const fields = [
@@ -755,11 +679,8 @@
 
                     const valueElement = document.createElement("div");
                     valueElement.className = "value";
-
                     valueElement.textContent =
-                        value === null ||
-                        value === undefined ||
-                        value === ""
+                        value === null || value === undefined || value === ""
                             ? "N/A"
                             : String(value);
 
@@ -768,47 +689,36 @@
                 });
 
                 result.appendChild(grid);
-
             } catch (error) {
                 console.error("Student API error:", error);
-
                 showMessage(
                     result,
-                    "Unable to retrieve student information. Check your backend and try again.",
+                    "Unable to retrieve student information. Check your Flask backend.",
                     true
                 );
             } finally {
-                setLoading(
-                    button,
-                    false,
-                    "☁ Load Student Information"
-                );
+                setLoading(button, false, "☁ Load Student Information");
             }
         }
 
-        // 2. Greeting API
-        document
-            .getElementById("greetingForm")
+        // 2. Greeting API.
+        document.getElementById("greetingForm")
             .addEventListener("submit", async function(event) {
                 event.preventDefault();
 
                 const nameInput = document.getElementById("nameInput");
                 const greeting = document.getElementById("greeting");
                 const button = document.getElementById("greetingBtn");
-
                 const name = nameInput.value.trim();
 
                 if (!name) {
-                    showMessage(
-                        greeting,
-                        "Please enter your first name before continuing."
-                    );
+                    showMessage(greeting, "Please enter your name.");
                     nameInput.focus();
                     return;
                 }
 
                 setLoading(button, true, "Say Hello ✦");
-                showMessage(greeting, "☀️ Preparing your greeting...");
+                showMessage(greeting, "Preparing your greeting...");
 
                 try {
                     const data = await fetchJSON(
@@ -819,18 +729,14 @@
 
                     const box = document.createElement("div");
                     box.className = "greeting-box";
-
-                    box.textContent =
-                        data.message ?? "Hello, " + name + "!";
+                    box.textContent = data.message || "Hello, " + name + "!";
 
                     greeting.appendChild(box);
-
                 } catch (error) {
                     console.error("Greeting API error:", error);
-
                     showMessage(
                         greeting,
-                        "Unable to retrieve your greeting. Please check your backend and try again.",
+                        "Unable to retrieve your greeting. Check your Flask backend.",
                         true
                     );
                 } finally {
@@ -838,30 +744,25 @@
                 }
             });
 
-        // 3. Skills API
+        // 3. Load skills.
         async function loadSkills() {
             const skillsDiv = document.getElementById("skills");
             const button = document.getElementById("skillsBtn");
 
             setLoading(button, true, "✧ Load My Skills");
-            showMessage(skillsDiv, "🚀 Loading your skills...");
+            showMessage(skillsDiv, "Loading your skills...");
 
             try {
                 const data = await fetchJSON("/skills");
 
                 if (!Array.isArray(data.skills)) {
-                    throw new Error(
-                        "The API response does not contain a skills array."
-                    );
+                    throw new Error("Invalid skills response.");
                 }
 
                 skillsDiv.replaceChildren();
 
                 if (data.skills.length === 0) {
-                    showMessage(
-                        skillsDiv,
-                        "No skills have been added yet."
-                    );
+                    showMessage(skillsDiv, "No skills have been added yet.");
                     return;
                 }
 
@@ -870,30 +771,78 @@
 
                 data.skills.forEach(skill => {
                     const item = document.createElement("li");
-
-                    // textContent prevents API values from being
-                    // interpreted as HTML.
                     item.textContent = String(skill);
-
                     list.appendChild(item);
                 });
 
                 skillsDiv.appendChild(list);
-
             } catch (error) {
                 console.error("Skills API error:", error);
-
                 showMessage(
                     skillsDiv,
-                    "Unable to retrieve your skills. Check your backend and try again.",
+                    "Unable to retrieve your skills. Check your Flask backend.",
                     true
                 );
             } finally {
                 setLoading(button, false, "✧ Load My Skills");
             }
         }
-    </script>
 
+        // 4. Load all students from the SQLite database.
+        async function loadStudents() {
+            const studentList = document.getElementById("studentList");
+            const button = document.getElementById("studentsBtn");
+
+            setLoading(button, true, "☁ Load Students");
+            showMessage(studentList, "Loading student records...");
+
+            try {
+                const data = await fetchJSON("/students");
+
+                if (!Array.isArray(data)) {
+                    throw new Error("Invalid students response.");
+                }
+
+                studentList.replaceChildren();
+
+                if (data.length === 0) {
+                    showMessage(studentList, "No student records found.");
+                    return;
+                }
+
+                const list = document.createElement("div");
+                list.className = "database-student-list";
+
+                data.forEach(student => {
+                    const item = document.createElement("div");
+                    item.className = "database-student-item";
+
+                    const studentId = document.createElement("strong");
+                    studentId.textContent = student.student_id || "No student ID";
+
+                    const details = document.createElement("div");
+                    details.textContent =
+                        `${student.name || "Unknown"} | ` +
+                        `${student.program || "N/A"} | ` +
+                        `Year ${student.year ?? "N/A"} | ` +
+                        `Section ${student.section || "N/A"}`;
+
+                    item.append(studentId, details);
+                    list.appendChild(item);
+                });
+
+                studentList.appendChild(list);
+            } catch (error) {
+                console.error("Students API error:", error);
+                showMessage(
+                    studentList,
+                    "Unable to retrieve student records. Check your Flask server and database.",
+                    true
+                );
+            } finally {
+                setLoading(button, false, "☁ Load Students");
+            }
+        }
+    </script>
 </body>
 </html>
-```

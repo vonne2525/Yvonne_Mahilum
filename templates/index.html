@@ -6,217 +6,302 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student API Interface</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fff0f5;
-            margin: 0;
-            padding: 30px 15px;
-            color: #5c3545;
+   
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(180deg, #b9e5ff 0%, #e8f6ff 45%, #f7fcff 100%);
+        background-attachment: fixed;
+        margin: 0;
+        padding: 30px 15px;
+        color: #31516b;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    body::before {
+        content: "☁️";
+        position: fixed;
+        top: 8%;
+        left: 5%;
+        font-size: 85px;
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    body::after {
+        content: "☁️";
+        position: fixed;
+        right: 6%;
+        bottom: 8%;
+        font-size: 110px;
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 30px auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+        background: linear-gradient(135deg, #64b5f6, #2980d9);
+        padding: 28px 15px;
+        border-radius: 25px;
+        font-size: 28px;
+        box-shadow: 0 8px 25px rgba(52, 144, 220, 0.25);
+        border: 2px solid rgba(255,255,255,0.7);
+        letter-spacing: 1px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.92);
+        padding: 27px;
+        margin-top: 23px;
+        border-radius: 22px;
+        border: 1px solid #d4edff;
+        box-shadow: 0 8px 25px rgba(70, 145, 195, 0.12);
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 12px 30px rgba(70, 145, 195, 0.18);
+        transform: translateY(-2px);
+    }
+
+    h2 {
+        color: #2684c7;
+        margin-top: 0;
+        font-size: 21px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #e0f2ff;
+    }
+
+    p {
+        line-height: 1.7;
+        color: #58748c;
+    }
+
+    button {
+        background: linear-gradient(135deg, #64b5f6, #318bd5);
+        color: white;
+        border: none;
+        padding: 11px 17px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(49, 139, 213, 0.18);
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, #318bd5, #1769aa);
+        transform: translateY(-3px);
+        box-shadow: 0 7px 15px rgba(49, 139, 213, 0.25);
+    }
+
+    button:active {
+        transform: scale(0.97);
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #ff8a8a, #e85d75);
+    }
+
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #ed6378, #cc3e5a);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #90b8d5, #668eaf);
+    }
+
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #668eaf, #4c718f);
+    }
+
+    input {
+        width: 100%;
+        padding: 13px;
+        margin: 10px 0 16px;
+        border: 1px solid #c9e5f8;
+        border-radius: 11px;
+        box-sizing: border-box;
+        font-size: 14px;
+        background-color: #f8fcff;
+        color: #31516b;
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #52a8e5;
+        background-color: white;
+        box-shadow: 0 0 0 4px rgba(82, 168, 229, 0.15);
+    }
+
+    input::placeholder {
+        color: #9ab4c8;
+    }
+
+    label {
+        color: #426681;
+    }
+
+    .result {
+        margin-top: 18px;
+        padding: 17px;
+        border-radius: 14px;
+        border: 1px solid #d8edfc;
+        background: #f3faff;
+        overflow-x: auto;
+    }
+
+    .student-info p {
+        padding: 11px 0;
+        margin: 0;
+        border-bottom: 1px solid #deeffb;
+        color: #426681;
+    }
+
+    .student-info p:last-child {
+        border-bottom: none;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    th, td {
+        border: 1px solid #d5eaf8;
+        padding: 12px;
+        text-align: left;
+        font-size: 13px;
+    }
+
+    th {
+        background: #dcefff;
+        color: #315f80;
+        font-weight: bold;
+    }
+
+    td {
+        background: white;
+        color: #526f85;
+    }
+
+    tbody tr:hover td {
+        background: #f0f8ff;
+    }
+
+    .action-btns {
+        display: flex;
+        gap: 5px;
+    }
+
+    #greeting {
+        color: #2585c7;
+        font-weight: bold;
+        overflow-wrap: anywhere;
+        margin-top: 15px;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding: 18px;
+        color: #648ca9;
+        font-size: 13px;
+    }
+
+    #notificationContainer {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .toast {
+        min-width: 250px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: slideIn 0.3s ease-out forwards;
+    }
+
+    .toast.success {
+        background: #38a878;
+        border-left: 6px solid #218557;
+    }
+
+    .toast.error {
+        background: #e85d75;
+        border-left: 6px solid #bd3e57;
+    }
+
+    .toast.info {
+        background: #3999d5;
+        border-left: 6px solid #2175ad;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
+        to {
+            transform: translateX(0);
+            opacity: 1;
         }
+    }
 
+    @media (max-width: 480px) {
         h1 {
-            text-align: center;
-            color: white;
-            background-color: #f28bb3;
-            padding: 25px 15px;
-            border-radius: 15px;
-            font-size: 27px;
-            box-shadow: 0 4px 10px rgba(230, 100, 150, 0.2);
+            font-size: 23px;
         }
 
         .card {
-            background-color: white;
-            padding: 25px;
-            margin-top: 22px;
-            border-radius: 15px;
-            border: 1px solid #ffd6e5;
-            box-shadow: 0 4px 12px rgba(230, 100, 150, 0.12);
-        }
-
-        h2 {
-            color: #e75480;
-            margin-top: 0;
-            font-size: 21px;
-        }
-
-        p {
-            line-height: 1.6;
-        }
-
-        button {
-            background-color: #ec6f9e;
-            color: white;
-            border: 2px solid #222;
-            padding: 8px 12px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background-color: #d94f83;
-            transform: translateY(-2px);
-        }
-
-        .btn-danger {
-            background-color: #ff6b8b;
-        }
-
-        .btn-danger:hover {
-            background-color: #e0486c;
-        }
-
-        .btn-secondary {
-            background-color: #b87994;
-        }
-
-        .btn-secondary:hover {
-            background-color: #9c5f7c;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0 15px;
-            border: 1px solid #f4b6cc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 14px;
-            background-color: #fffafd;
-            color: #5c3545;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #ec6f9e;
-            box-shadow: 0 0 0 3px #ffe0eb;
-        }
-
-        .result {
-            margin-top: 18px;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #ffd6e5;
-            background-color: #fff0f6;
-            overflow-x: auto;
-        }
-
-        .student-info p {
-            padding: 9px 0;
-            margin: 0;
-            border-bottom: 1px solid #f8d5e2;
-        }
-
-        .student-info p:last-child {
-            border-bottom: none;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            white-space: nowrap;
-        }
-
-        th, td {
-            border: 1px solid #f4b6cc;
-            padding: 10px 12px;
-            text-align: left;
-            font-size: 13px;
-        }
-
-        th {
-            background-color: #ffe0eb;
-            color: #5c3545;
+            padding: 18px;
         }
 
         .action-btns {
-            display: flex;
-            gap: 5px;
-        }
-
-        #greeting {
-            color: #d63375;
-            font-weight: bold;
-            overflow-wrap: anywhere;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            color: #b87994;
-            font-size: 13px;
-        }
-
-        #notificationContainer {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
             flex-direction: column;
-            gap: 10px;
         }
 
-        .toast {
-            min-width: 250px;
-            padding: 14px 20px;
-            border-radius: 10px;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            animation: slideIn 0.3s ease-out forwards;
+        button {
+            max-width: 100%;
         }
+    }
+</style>
 
-        .toast.success {
-            background-color: #2e7d32;
-            border-left: 6px solid #1b5e20;
-        }
-
-        .toast.error {
-            background-color: #d32f2f;
-            border-left: 6px solid #b71c1c;
-        }
-
-        .toast.info {
-            background-color: #e75480;
-            border-left: 6px solid #b8325a;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 23px;
-            }
-
-            .card {
-                padding: 18px;
-            }
-        }
-    </style>
 </head>
 
 <body>

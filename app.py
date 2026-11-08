@@ -34,8 +34,8 @@ def api():
 @app.route("/student")
 def get_student():
     return jsonify({
-        "student_id": "24-00347",
-        "name": "Kate Ashley Distura",
+        "student_id": "24-00145",
+        "name": "Yvonne Mahilum",
         "program": "BSIT",
         "year": 3,
         "section": "B"
@@ -400,9 +400,8 @@ def delete_student(id):
 # ==========================================
 
 if __name__ == "__main__":
-
     app.run(
-        debug=os.environ.get("FLASK_DEBUG") == "1",
         host="0.0.0.0",
-        port=int(os.environ.get("PORT", 5000))
+        port=int(os.environ.get("PORT", 5000)),
+        debug=True
     )

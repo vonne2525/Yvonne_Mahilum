@@ -238,7 +238,7 @@
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin: 20px 0;
         }
@@ -314,7 +314,7 @@
 
             <p class="dashboard-intro">
                 View your local student records, imported records, and records
-                retrieved from your partner's API in one place.
+                retrieved from both partner APIs in one place.
             </p>
 
             <div class="dashboard-grid">
@@ -330,8 +330,13 @@
                 </div>
 
                 <div class="dashboard-stat">
-                    <h3>Partner Records</h3>
+                    <h3>Partner 1 Records</h3>
                     <strong id="partnerCount">0</strong>
+                </div>
+
+                <div class="dashboard-stat">
+                    <h3>Partner 2 Records</h3>
+                    <strong id="partner2Count">0</strong>
                 </div>
 
             </div>
@@ -502,6 +507,51 @@
             <div id="partnerDetails"></div>
         </section>
 
+        <!-- PARTNER 2 RECORDS -->
+        <section class="card">
+            <h2>🤝 Partner 2 Records</h2>
+
+            <p class="section-description">
+                Retrieve student records from Partner 2's deployed API.
+                Select a record and save it to your own SQLite database.
+            </p>
+
+            <span class="dashboard-count" id="partner2TableCount">
+                0 Partner 2 Records
+            </span>
+
+            <button onclick="loadPartner2Records()">Retrieve Partner 2 Records</button>
+
+            <div id="partner2Message" class="message"></div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Program</th>
+                            <th>Year</th>
+                            <th>Section</th>
+                            <th>Source</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="partner2Records">
+                        <tr>
+                            <td colspan="8">
+                                Click Retrieve Partner 2 Records to load records.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="partner2Details"></div>
+        </section>
+
         <!-- MY RECORDS FORM AND MANAGEMENT -->
         <section class="card">
             <h2>📝 Manage My Records</h2>
@@ -602,6 +652,32 @@ The response from your partner's API will appear here.
             </pre>
         </section>
 
+        <!-- SEND PRACTICE RECORD TO PARTNER 2 -->
+        <section class="card">
+            <h2>📤 Send Practice Record to Partner 2</h2>
+
+            <p class="section-description">
+                Send a sample student record to Partner 2's deployed API.
+            </p>
+
+            <p><strong>Student ID:</strong> EXT-002</p>
+            <p><strong>Name:</strong> Sample Exchange Record - Partner 2</p>
+            <p><strong>Program:</strong> BSIT</p>
+            <p><strong>Year:</strong> 1</p>
+            <p><strong>Section:</strong> A</p>
+            <p><strong>Source:</strong> Partner 2 API</p>
+
+            <button id="sendPartner2PracticeBtn" onclick="sendPracticeRecordPartner2()">
+                Send Practice Record to Partner 2
+            </button>
+
+            <div id="sendPartner2Message" class="message"></div>
+
+            <pre id="sendPartner2Result">
+The response from Partner 2's API will appear here.
+            </pre>
+        </section>
+
         <footer>
             <p>Student API Integration Dashboard | Flask and SQLite</p>
         </footer>
@@ -611,6 +687,7 @@ The response from your partner's API will appear here.
     <script>
         let editingStudentId = null;
         let partnerStudents = [];
+        let partner2Students = [];
 
         function escapeHTML(value) {
             return String(value ?? "").replace(/[&<>"']/g, function(char) {
@@ -861,6 +938,7 @@ The response from your partner's API will appear here.
                 loadLocalRecords(),
                 loadImportedRecords(),
                 loadClassmateRecords(),
+                loadPartner2Records(),
                 loadStudents()
             ]);
 
@@ -1061,6 +1139,248 @@ The response from your partner's API will appear here.
                     "0 Partner Records";
 
                 showMessage("partnerMessage", error.message, "error");
+            }
+        }
+
+        // LOAD PARTNER 2 RECORDS
+        async function loadPartner2Records() {
+            const table = document.getElementById("partner2Records");
+
+            table.innerHTML =
+                '<tr><td colspan="8">Retrieving Partner 2 records...</td></tr>';
+
+            clearMessage("partner2Message");
+
+            try {
+                const data = await fetchJSON("/partner2-records");
+
+                partner2Students = getStudentArray(data);
+
+                document.getElementById("partner2Count").textContent =
+                    partner2Students.length;
+
+                document.getElementById("partner2TableCount").textContent =
+                    `${partner2Students.length} Partner 2 Record(s)`;
+
+                if (partner2Students.length === 0) {
+                    table.innerHTML =
+                        '<tr><td colspan="8">No Partner 2 records found.</td></tr>';
+
+                    showMessage(
+                        "partner2Message",
+                        "Partner 2 API responded, but no student records were found.",
+                        "success"
+                    );
+
+                    return;
+                }
+
+                table.innerHTML = partner2Students.map((student, index) => `
+                    <tr>
+                        <td>${escapeHTML(student.id ?? index + 1)}</td>
+                        <td>${escapeHTML(student.student_id)}</td>
+                        <td>${escapeHTML(student.name)}</td>
+                        <td>${escapeHTML(student.program)}</td>
+                        <td>${escapeHTML(student.year)}</td>
+                        <td>${escapeHTML(student.section)}</td>
+                        <td>
+                            <span class="source-badge partner-badge">
+                                Partner 2 API
+                            </span>
+                        </td>
+                        <td>
+                            <button class="view-btn"
+                                onclick="viewPartner2Student(${index})">
+                                View
+                            </button>
+
+                            <button class="import-btn"
+                                onclick="savePartner2Student(${index}, this)">
+                                Save to My Database
+                            </button>
+                        </td>
+                    </tr>
+                `).join("");
+
+                showMessage(
+                    "partner2Message",
+                    `${partner2Students.length} Partner 2 record(s) retrieved successfully.`,
+                    "success"
+                );
+
+            } catch (error) {
+                table.innerHTML =
+                    `<tr><td colspan="8">${escapeHTML(error.message)}</td></tr>`;
+
+                document.getElementById("partner2Count").textContent = "0";
+                document.getElementById("partner2TableCount").textContent =
+                    "0 Partner 2 Records";
+
+                showMessage("partner2Message", error.message, "error");
+            }
+        }
+
+        // VIEW PARTNER 2 STUDENT
+        function viewPartner2Student(index) {
+            const student = partner2Students[index];
+
+            if (!student) {
+                return;
+            }
+
+            document.getElementById("partner2Details").innerHTML = `
+                <div class="card">
+                    <h3>Partner 2 Student Details</h3>
+
+                    <p><strong>Student ID:</strong>
+                        ${escapeHTML(student.student_id)}</p>
+
+                    <p><strong>Name:</strong>
+                        ${escapeHTML(student.name)}</p>
+
+                    <p><strong>Program:</strong>
+                        ${escapeHTML(student.program)}</p>
+
+                    <p><strong>Year:</strong>
+                        ${escapeHTML(student.year)}</p>
+
+                    <p><strong>Section:</strong>
+                        ${escapeHTML(student.section)}</p>
+
+                    <p><strong>Source:</strong>
+                        <span class="source-badge partner-badge">
+                            Partner 2 API
+                        </span>
+                    </p>
+
+                    <button onclick="closePartner2View()">Close Details</button>
+                </div>
+            `;
+
+            document.getElementById("partner2Details").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+        // CLOSE PARTNER 2 DETAILS
+        function closePartner2View() {
+            document.getElementById("partner2Details").innerHTML = "";
+        }
+
+        // IMPORT SELECTED PARTNER 2 RECORD
+        async function savePartner2Student(index, button) {
+            const student = partner2Students[index];
+
+            if (!student) {
+                showMessage(
+                    "partner2Message",
+                    "Partner 2 student record not found.",
+                    "error"
+                );
+                return;
+            }
+
+            const importedStudent = {
+                student_id: student.student_id,
+                name: student.name,
+                program: student.program,
+                year: student.year,
+                section: student.section
+            };
+
+            if (
+                Object.values(importedStudent).some(
+                    value =>
+                        value === undefined ||
+                        value === null ||
+                        String(value).trim() === ""
+                )
+            ) {
+                showMessage(
+                    "partner2Message",
+                    "This Partner 2 record has incomplete student information.",
+                    "error"
+                );
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Saving...";
+
+            try {
+                const result = await fetchJSON("/import-partner2-student", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(importedStudent)
+                });
+
+                showMessage(
+                    "partner2Message",
+                    `${result.message} Source: ${result.source}`,
+                    "success"
+                );
+
+                await Promise.all([
+                    loadStudents(),
+                    loadLocalRecords(),
+                    loadImportedRecords()
+                ]);
+
+            } catch (error) {
+                showMessage(
+                    "partner2Message",
+                    error.message,
+                    "error"
+                );
+
+            } finally {
+                button.disabled = false;
+                button.textContent = "Save to My Database";
+            }
+        }
+
+        // SEND PRACTICE RECORD TO PARTNER 2
+        async function sendPracticeRecordPartner2() {
+            const button = document.getElementById("sendPartner2PracticeBtn");
+            const resultBox = document.getElementById("sendPartner2Result");
+
+            button.disabled = true;
+            button.textContent = "Sending...";
+
+            resultBox.textContent =
+                "Sending practice record to Partner 2 API...";
+
+            clearMessage("sendPartner2Message");
+
+            try {
+                const result = await fetchJSON("/send-practice-record-partner2", {
+                    method: "POST"
+                });
+
+                resultBox.textContent =
+                    JSON.stringify(result, null, 4);
+
+                showMessage(
+                    "sendPartner2Message",
+                    "Partner 2 API accepted the request. HTTP Status: " +
+                    result.status_code,
+                    "success"
+                );
+
+            } catch (error) {
+                resultBox.textContent = error.message;
+
+                showMessage(
+                    "sendPartner2Message",
+                    error.message,
+                    "error"
+                );
+
+            } finally {
+                button.disabled = false;
+                button.textContent = "Send Practice Record to Partner 2";
             }
         }
 

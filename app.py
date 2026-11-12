@@ -17,6 +17,12 @@ PARTNER_URL = os.environ.get(
     "https://gwynethjoylaudv1.onrender.com/api/students"
 )
 
+# Partner 2 API URL
+PARTNER2_URL = os.environ.get(
+    "PARTNER2_API_URL",
+    "http://13.211.176.27/api/students"
+)
+
 REQUEST_TIMEOUT = 20
 
 
@@ -327,6 +333,158 @@ def partner_records():
     except requests.RequestException as e:
         return jsonify({
             "error": "Unable to retrieve partner records.",
+            "details": str(e)
+        }), 502
+
+
+# RETRIEVE PARTNER 2 RECORDS
+@app.route("/partner2-records", methods=["GET"])
+def partner2_records():
+    try:
+        response = requests.get(
+            PARTNER2_URL,
+            timeout=REQUEST_TIMEOUT
+        )
+
+        response.raise_for_status()
+
+        try:
+            partner_data = response.json()
+        except ValueError:
+            return jsonify({
+                "error": "Partner 2 API returned invalid JSON."
+            }), 502
+
+        students = get_partner_students(partner_data)
+
+        if students is None:
+            return jsonify({
+                "error": "Partner 2 API response does not contain a student list.",
+                "partner_response": partner_data
+            }), 502
+
+        return jsonify({
+            "message": "Partner 2 records retrieved successfully.",
+            "students": students
+        })
+
+    except requests.Timeout:
+        return jsonify({
+            "error": "The Partner 2 API request timed out."
+        }), 504
+
+    except requests.RequestException as e:
+        return jsonify({
+            "error": "Unable to retrieve Partner 2 records.",
+            "details": str(e)
+        }), 502
+
+
+# IMPORT A SELECTED PARTNER 2 RECORD
+@app.route("/import-partner2-student", methods=["POST"])
+def import_partner2_student():
+    data = request.get_json(silent=True) or {}
+
+    student, error = validate_student(data)
+
+    if error:
+        return jsonify({"error": error}), 400
+
+    conn = get_db_connection()
+
+    try:
+        existing = conn.execute(
+            """
+            SELECT id FROM students
+            WHERE student_id = ?
+            LIMIT 1
+            """,
+            (student["student_id"],)
+        ).fetchone()
+
+        if existing:
+            return jsonify({
+                "error": "This student ID already exists in your database.",
+                "existing_id": existing["id"]
+            }), 409
+
+        cursor = conn.execute(
+            """
+            INSERT INTO students
+            (student_id, name, program, year, section, source)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                student["student_id"],
+                student["name"],
+                student["program"],
+                student["year"],
+                student["section"],
+                "Partner 2 API"
+            )
+        )
+
+        conn.commit()
+
+        return jsonify({
+            "message": "Partner 2 record successfully imported.",
+            "id": cursor.lastrowid,
+            "student": student,
+            "source": "Partner 2 API"
+        }), 201
+
+    except sqlite3.Error as e:
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        conn.close()
+
+
+# SEND A PRACTICE RECORD TO PARTNER 2
+@app.route("/send-practice-record-partner2", methods=["POST"])
+def send_practice_record_partner2():
+    record = {
+        "student_id": "EXT-002",
+        "name": "Sample Exchange Record - Partner 2",
+        "program": "BSIT",
+        "year": 1,
+        "section": "A",
+        "source": "Partner 2 API"
+    }
+
+    try:
+        response = requests.post(
+            PARTNER2_URL,
+            json=record,
+            timeout=REQUEST_TIMEOUT
+        )
+
+        try:
+            partner_response = response.json()
+        except ValueError:
+            partner_response = response.text
+
+        result = {
+            "message": (
+                "Partner 2 API accepted the request."
+                if response.ok
+                else "Partner 2 API did not accept the record."
+            ),
+            "status_code": response.status_code,
+            "sent_record": record,
+            "partner_response": partner_response
+        }
+
+        return jsonify(result), 200 if response.ok else 502
+
+    except requests.Timeout:
+        return jsonify({
+            "error": "Sending the record to Partner 2 timed out."
+        }), 504
+
+    except requests.RequestException as e:
+        return jsonify({
+            "error": "Could not send the practice record to Partner 2 API.",
             "details": str(e)
         }), 502
 
